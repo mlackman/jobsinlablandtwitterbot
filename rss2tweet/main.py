@@ -8,8 +8,8 @@ with open('twitter_keys.secret.yaml') as f:
   twitter_config = yaml.load(f)
 
 def send_status(msg):
-  auth = tweepy.OAuthHandler(twitter_config.consumer_key, twitter_config.consumer_secret)
-  auth.set_access_token(twitter_config.access_token, twitter_config.access_token_secret)
+  auth = tweepy.OAuthHandler(twitter_config['consumer_key'], twitter_config['consumer_secret'])
+  auth.set_access_token(twitter_config['access_token'], twitter_config['access_token_secret'])
   twitter = tweepy.API(auth)
   twitter.update_status(status=msg)
   time.sleep(61)
