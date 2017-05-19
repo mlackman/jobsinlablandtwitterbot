@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve <%=@title %>
+After=network.target
+
+[Service]
+User=root
+Group=nginx
+WorkingDirectory=<%=@app_path%>
+Environment="PATH=<%=@path%>"
+ExecStart=<%=@path%>/bin/uwsgi --ini <%=@title%>.ini
+
+[Install]
+WantedBy=multi-user.target

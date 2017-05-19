@@ -1,0 +1,1 @@
+needs puppet module install puppetlabs-stdlib

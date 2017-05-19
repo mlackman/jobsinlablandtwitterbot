@@ -1,0 +1,7 @@
+server {
+  listen <%=@port%> default_server;
+  root <%=@docroot%>;
+
+  server_name <%=@host%>;
+  include /etc/nginx/applocations/*.location;
+}
