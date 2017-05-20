@@ -14,6 +14,12 @@ exec { "upgrade-pip":
   command => 'sudo pip3 install --upgrade pip'
 }
 
+cron { 'runworkinnordictwitter':
+  command => '/home/workinnordictwitter/rss2tweet/run.s',
+  user    => 'workinnordictwitter',
+  hour    => 1,
+  minute  => 0,
+}
 user { "workinnordictwitter":
   ensure     => present,
   shell      => '/bin/bash',

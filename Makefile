@@ -16,5 +16,5 @@ upload: zip
 	scp $(ZIP) $(SERVER):/tmp
 
 zip:
-	zip -r $(ZIP) rss2tweet/ requirements.txt twitter_keys.secret.yaml
+	zip -r $(ZIP) rss2tweet/ requirements.txt twitter_keys.secret.yaml run.sh
 
