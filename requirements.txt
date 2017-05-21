@@ -3,3 +3,4 @@ Tweepy
 requests
 python-dateutil
 pyyaml
+nose
