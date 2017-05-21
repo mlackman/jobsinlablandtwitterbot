@@ -5,7 +5,7 @@ import os
 
 class Entry(object):
 
-  def __init__(self, feed_entry, fields):
+  def __init__(self, feed_entry:dict, fields:dict):
     self._feed_entry = feed_entry
 
     self._field_names = []
