@@ -8,7 +8,7 @@ help:
 	To deploy run 'make deploy'
 
 deploy: upload
-	ssh -t $(SERVER) "sudo su - $(USER) -c 'mkdir $(APPDIR) && cd $(APPDIR) && unzip /tmp/$(ZIP) && cd .. && ln -s $(APPDIR)/ rss2tweet'"
+	ssh -t $(SERVER) "sudo su - $(USER) -c 'mkdir $(APPDIR) && cd $(APPDIR) && unzip /tmp/$(ZIP) && cd .. && rm -rf rss2tweet && ln -s $(APPDIR)/ rss2tweet'"
 	ssh -t $(SERVER) "sudo su - $(USER) -c 'cd rss2tweet && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt'"
 
 
