@@ -15,10 +15,10 @@ class Entry(object):
     self._field_names.sort()
 
   def __str__(self):
-    reprenentation = ""
+    representation = ""
     for field in self._field_names:
-      reprenentation += "%s: %s\n" % (field, getattr(self, field))
-    return reprenentation
+      representation += "%s: %s\n" % (field, getattr(self, field))
+    return representation
 
   def __eq__(self, other):
     return str(self) == str(other)
