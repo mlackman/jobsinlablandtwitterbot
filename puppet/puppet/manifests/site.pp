@@ -15,7 +15,7 @@ exec { "upgrade-pip":
 }
 
 cron { 'runworkinnordictwitter':
-  command => '/home/workinnordictwitter/rss2tweet/run.s',
+  command => '/home/workinnordictwitter/rss2tweet/run.sh',
   user    => 'workinnordictwitter',
   hour    => ['3-15'],
   minute  => 0,
