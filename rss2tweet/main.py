@@ -1,4 +1,4 @@
-from rss2tweet.feeds import Feed
+from rss2tweet.feeds import Feed, FeedService, FeedStorage
 import tweepy
 import time
 import re
@@ -15,9 +15,11 @@ def send_status(msg):
   time.sleep(61)
 
 def main():
+  feed_service = FeedService('http://www.mol.fi/tyopaikat/tyopaikkatiedotus/haku/tyopaikat.rss?vuokrapaikka=---&hakusanakentta=sanahaku&alueet=Lappi%2C+&oppisopimus=false&lang=fi&ilmoitettuPvm=1&hakusana=')
+
   feed = Feed("Työtä pohjoisessa",
-              'http://www.mol.fi/tyopaikat/tyopaikkatiedotus/haku/tyopaikat.rss?vuokrapaikka=---&hakusanakentta=sanahaku&alueet=Lappi%2C+&oppisopimus=false&lang=fi&ilmoitettuPvm=1&hakusana=',
-              "last.rss")
+              feed_service,
+              FeedStorage("last.rss"))
   entries = feed.get_new_entries()
   entries = sorted(entries, key=lambda entry: entry.published)
 

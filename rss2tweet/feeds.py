@@ -23,13 +23,43 @@ class Entry(object):
   def __eq__(self, other):
     return str(self) == str(other)
 
+class FeedService(object):
+  """Reads RSS feed from given url"""
+
+  def __init__(self, url):
+    self._url = url
+
+  def read_feed(self):
+    response = requests.get(self._url)
+    if response.status_code != 200:
+      raise "GOT status %d" % response.status_code
+    print(response.text)
+    return response.text
+
+class FeedStorage(object):
+
+  def __init__(self, filename):
+    self._filename = filename
+
+  def feed_exists(self):
+    """Checks if feed exists in storage"""
+    return os.path.exists(self._filename)
+
+  def get(self):
+    with open(self._filename, "rt", encoding='utf-8') as f:
+      return f.read()
+
+  def store(self, content):
+    with open(self._filename, 'w', encoding='utf-8') as f:
+      f.write(content)
+
 class Feed(object):
 
-  def __init__(self, name, feed_url, old_feed_filename, entry_factory_method=None):
+  def __init__(self, name, feed_service, feed_storage, entry_factory_method=None):
     self.entry_factory_method = entry_factory_method or (lambda rssentry: Entry(rssentry,{"title":str, "link":str, "published":dateutil.parser.parse }))
     self.name = name
-    self.feed_url = feed_url
-    self.old_feed_filename = old_feed_filename
+    self._feed_service = feed_service
+    self._feed_storage = feed_storage
 
   def get_new_entries(self):
     old_entries = self._get_old_entries()
@@ -37,33 +67,17 @@ class Feed(object):
     return filter(lambda entry: entry not in old_entries, all_entries)
 
   def get_all_entries(self):
-    content = self._read_feed()
-    self._write_to_disk(content)
+    content = self._feed_service.read_feed()
+    self._feed_storage.store(content)
     return self._parse_rss(content)
 
   def _get_old_entries(self):
     old_entries = []
-    if os.path.exists(self.old_feed_filename):
-      old_entries = self._parse_rss(self._read_feed_from_file())
+    if self._feed_storage.feed_exists():
+      old_entries = self._parse_rss(self._feed_storage.get())
     return old_entries
-
-  def _write_to_disk(self, content):
-    with open(self.old_feed_filename, 'w', encoding='utf-8') as f:
-      f.write(content)
 
   def _parse_rss(self, rss):
     data = feedparser.parse(rss)
     return [self.entry_factory_method(entry) for entry in data.entries]
-
-  def _read_feed_from_file(self):
-    with open(self.old_feed_filename, "rt", encoding='utf-8') as f:
-      return f.read()
-
-  def _read_feed(self):
-    response = requests.get(self.feed_url)
-    if response.status_code != 200:
-      raise "GOT status %d" % response.status_code
-    print(response.text)
-    return response.text
-
 
