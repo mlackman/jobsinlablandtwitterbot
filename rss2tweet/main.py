@@ -15,7 +15,7 @@ def send_status(msg):
   time.sleep(61)
 
 def main():
-  feed_service = FeedService('http://www.mol.fi/tyopaikat/tyopaikkatiedotus/haku/tyopaikat.rss?vuokrapaikka=---&hakusanakentta=sanahaku&alueet=Lappi%2C+&oppisopimus=false&lang=fi&ilmoitettuPvm=1&hakusana=')
+  feed_service = FeedService('http://paikat.te-palvelut.fi/tpt-api/tyopaikat.rss?alueet=Lappi&ilmoitettuPvm=1&vuokrapaikka=---')
 
   feed = Feed("Työtä pohjoisessa",
               feed_service,
